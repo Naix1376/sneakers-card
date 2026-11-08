@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Мини-магазин</title>
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 <header class="top">
@@ -21,10 +21,20 @@
     <div class="sum"><span>Итого за выбранное</span><b id="total">$0,00</b></div>
     <button type="button" class="buy" id="pay">Перейти к оплате</button>
     <button type="button" class="buy alt" id="cod">Оплатить при получении</button>
+    <form class="order" id="order" hidden>
+      <h3>Оформление заказа</h3>
+      <input id="o-name" name="name" placeholder="Ваше имя" required autocomplete="name" aria-label="Ваше имя">
+      <input name="phone" type="tel" placeholder="Телефон" required autocomplete="tel" aria-label="Телефон">
+      <input name="address" placeholder="Адрес доставки" required autocomplete="street-address" aria-label="Адрес доставки">
+      <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none">
+      <small>Отправляя заказ, вы передаёте имя, телефон и адрес продавцу, чтобы он с вами связался.</small>
+      <button type="submit" class="buy" id="o-send">Отправить заказ</button>
+      <button type="button" class="ghost" id="o-cancel">Отмена</button>
+    </form>
     <p class="msg" id="msg" role="status"></p>
   </div>
 </aside>
-<script src="products.js?v=3"></script>
-<script src="app.js?v=3"></script>
+<script src="products.js?v=4"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>

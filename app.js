@@ -160,7 +160,30 @@
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!drawer.hidden) closeCart(); });
   allBtn.addEventListener('click',function(){ var every=items.length>0&&chosen().length===items.length; items.forEach(function(i){i.on=!every;}); renderCart(); });
   payBtn.addEventListener('click',function(){ msg.textContent='Переходим к оплате заказа на '+fmt(selTotal())+'. Это демо: настоящей оплаты здесь нет.'; });
-  codBtn.addEventListener('click',function(){ var s=selTotal(); items=items.filter(function(i){return !i.on;}); renderCart(); msg.textContent='Заказ на '+fmt(s)+' оформлен. Оплата при получении.'; });
+  var orderForm=document.getElementById('order');
+  codBtn.addEventListener('click',function(){ msg.textContent=''; orderForm.hidden=false; document.getElementById('o-name').focus(); });
+  document.getElementById('o-cancel').addEventListener('click',function(){ orderForm.hidden=true; });
+  orderForm.addEventListener('submit',function(e){
+    e.preventDefault();
+    var lines=chosen().map(function(i){ return P[i.k].name+', размер '+i.size+' × '+i.qty+' = '+fmt(unit(i.k,i.size)*i.qty); });
+    if(!lines.length) return;
+    var total=selTotal();
+    if(!ORDER_KEY){ msg.textContent='Отправка заказов ещё не настроена: впишите ключ ORDER_KEY в products.js.'; return; }
+    var btn=document.getElementById('o-send'); btn.disabled=true; msg.textContent='Отправляем заказ…';
+    var data=new FormData(orderForm);
+    data.append('access_key',ORDER_KEY);
+    data.append('subject','Новый заказ на '+fmt(total));
+    data.append('from_name','Мини-магазин');
+    data.append('order','Состав заказа:\n'+lines.join('\n')+'\nИтого: '+fmt(total)+'\nОплата при получении');
+    fetch('https://api.web3forms.com/submit',{method:'POST',body:data})
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        if(j && j.success){ items=items.filter(function(i){return !i.on;}); renderCart(); orderForm.reset(); orderForm.hidden=true; msg.textContent='Заказ на '+fmt(total)+' отправлен. Мы свяжемся с вами. Оплата при получении.'; }
+        else{ msg.textContent='Не удалось отправить заказ. Попробуйте ещё раз.'; }
+      })
+      .catch(function(){ msg.textContent='Нет связи. Проверьте интернет и попробуйте снова.'; })
+      .then(function(){ btn.disabled=false; });
+  });
   window.addEventListener('hashchange',route);
   renderCart(); route();
 })();
