@@ -20,8 +20,8 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 .card{margin:24px auto;width:calc(100% - 32px);max-width:760px;background:var(--card);border:1px solid var(--line);border-radius:12px;display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:24px}
 @media(max-width:620px){.card{grid-template-columns:1fr}}
 .pic{position:relative;overflow:hidden;background:linear-gradient(160deg,#0f172a,#1e3a8a);border-radius:10px;display:flex;align-items:center;justify-content:center;min-height:280px}
-.emo{font-size:6rem}
-.pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.emo{position:absolute;font-size:6rem}
+.pic img{position:relative;display:block;width:100%;height:auto;max-height:85vh;object-fit:contain}
 h1{font-size:1.4rem;line-height:1.25;margin:0 0 4px}
 .brand{color:var(--muted);margin:0 0 8px}
 .rating{color:var(--muted);font-size:.9rem;margin-bottom:12px}
