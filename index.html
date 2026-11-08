@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Forever Sister X — карточка товара</title>
+<style>
+:root{--bg:#f3f5f9;--card:#fff;--ink:#111827;--muted:#6b7280;--line:#d1d5db;--accent:#1d4ed8;--accent-ink:#fff;--off:#e5e7eb;--off-ink:#9ca3af;--sale:#c2410c;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1020;--card:#151b2e;--ink:#f3f4f6;--muted:#9ca3af;--line:#374151;--accent:#60a5fa;--accent-ink:#0b1020;--off:#1f2937;--off-ink:#4b5563;--sale:#fb923c}}
+:root[data-theme="dark"]{--bg:#0b1020;--card:#151b2e;--ink:#f3f4f6;--muted:#9ca3af;--line:#374151;--accent:#60a5fa;--accent-ink:#0b1020;--off:#1f2937;--off-ink:#4b5563;--sale:#fb923c}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;justify-content:center;padding:72px 16px 24px}
+.card{width:100%;max-width:760px;background:var(--card);border:1px solid var(--line);border-radius:12px;display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:24px}
+@media(max-width:620px){.card{grid-template-columns:1fr}}
+.pic{background:linear-gradient(160deg,#0f172a,#1e3a8a);border-radius:10px;display:flex;align-items:center;justify-content:center;min-height:240px;padding:16px}
+.pic svg{width:100%;max-width:320px;height:auto}
+h1{font-size:1.4rem;line-height:1.25;margin:0 0 4px}
+.brand{color:var(--muted);margin:0 0 8px}
+.rating{color:var(--muted);font-size:.9rem;margin-bottom:12px}
+.stars{color:#f59e0b;letter-spacing:2px}
+.price{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.now{font-size:1.8rem;font-weight:700;color:var(--sale)}
+.old{color:var(--muted);text-decoration:line-through}
+.badge{background:var(--sale);color:var(--bg);font-size:.8rem;font-weight:600;padding:2px 8px;border-radius:999px}
+.label{font-weight:600;margin:0 0 8px}
+.sizes{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.size{min-width:48px;height:44px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;font:inherit;cursor:pointer}
+.size:hover:not(:disabled){border-color:var(--accent)}
+.size:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.size[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.size:disabled{background:var(--off);color:var(--off-ink);border-color:var(--off);cursor:not-allowed;text-decoration:line-through}
+.hint{color:var(--muted);font-size:.9rem;margin:0 0 16px;min-height:1.4em}
+.buy{width:100%;height:48px;border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:700;cursor:pointer}
+.buy:disabled{background:var(--off);color:var(--off-ink);cursor:not-allowed}
+.cart{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));right:16px;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:20}
+.cart:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.cart svg{width:24px;height:24px}
+.count{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--sale);color:var(--bg);font-size:.75rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+.count[hidden]{display:none}
+.fly{position:fixed;left:0;top:0;width:220px;height:72px;display:flex;gap:10px;align-items:center;padding:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;font-size:.8rem;line-height:1.3;pointer-events:none;z-index:30;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.fly-pic{width:48px;height:48px;border-radius:8px;background:linear-gradient(160deg,#0f172a,#1e3a8a);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex:none}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:40}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,100%);background:var(--card);border-left:1px solid var(--line);z-index:50;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);animation:slidein .25s ease-out}
+@keyframes slidein{from{transform:translateX(100%)}to{transform:none}}
+@media(prefers-reduced-motion:reduce){.drawer{animation:none}}
+.drawer[hidden],.overlay[hidden]{display:none}
+.dh{display:flex;justify-content:space-between;align-items:center;padding:16px}
+.dh h2{margin:0;font-size:1.2rem}
+.x{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:var(--card);color:var(--ink);cursor:pointer;font:inherit}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 16px 12px;color:var(--muted);font-size:.9rem}
+.ghost{border:1.5px solid var(--accent);background:transparent;color:var(--accent);border-radius:999px;padding:8px 14px;font:inherit;font-weight:600;cursor:pointer}
+.list{flex:1;overflow-y:auto;padding:0 16px}
+.row{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line);cursor:pointer}
+.row input{width:22px;height:22px;accent-color:var(--accent);flex:none}
+.info{flex:1;display:flex;flex-direction:column}
+.info small{color:var(--muted)}
+.lp{font-weight:700}
+.empty{color:var(--muted)}
+.foot{padding:16px;border-top:1px solid var(--line);display:grid;gap:10px}
+.sum{display:flex;justify-content:space-between;align-items:baseline;font-size:1.1rem}
+.sum b{font-size:1.5rem;color:var(--sale)}
+.buy.alt{background:transparent;border:2px solid var(--accent);color:var(--accent)}
+.buy.alt:disabled{border-color:var(--off);color:var(--off-ink);background:var(--off)}
+.msg{margin:0;min-height:1.4em;color:var(--muted);font-size:.9rem}
+.ghost:focus-visible,.x:focus-visible,.buy:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.row{flex-wrap:wrap}
+.info{min-width:120px}
+.lp{min-width:64px;text-align:right}
+.del{width:28px;height:28px;border-radius:50%;border:0;background:transparent;color:#ef4444;font-size:1rem;font-weight:700;cursor:pointer;flex:none}
+.del:hover{background:rgba(239,68,68,.15)}
+.qty{display:inline-flex;align-items:center;gap:6px;flex:none}
+.qty button{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-weight:700;line-height:1;cursor:pointer}
+.qty button:disabled{color:var(--off-ink);cursor:not-allowed}
+.qty span{min-width:20px;text-align:center}
+.del:focus-visible,.qty button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+</style>
+</head>
+<body>
+<button class="cart" id="cart" type="button" aria-label="Корзина, пока пуста"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.4 11.2a1 1 0 0 0 1 .8h8.7a1 1 0 0 0 1-.8L20 8H6"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/></svg><span class="count" id="count" hidden>0</span></button>
+<main class="card">
+  <div class="pic" id="pic" aria-hidden="true">
+    <svg viewBox="0 0 320 180" xmlns="http://www.w3.org/2000/svg"><path d="M20 128c0-18 6-30 18-36l40-18 22 14 26-10c14 18 34 26 66 30 30 4 52 12 62 28v22H20z" fill="#0b0f1a" stroke="#3b82f6" stroke-width="3"/><path d="M20 140h250v14a8 8 0 0 1-8 8H28a8 8 0 0 1-8-8z" fill="#2563eb"/><path d="M100 78l22 14M118 70l22 14" stroke="#60a5fa" stroke-width="3" stroke-linecap="round"/></svg>
+  </div>
+  <div>
+    <h1>Кроссовки Forever Sister X</h1>
+    <p class="brand">Forever Sister · молодёжная серия</p>
+    <div class="rating"><span class="stars">★★★★☆</span> 4,0</div>
+    <div class="price"><span class="now" id="now">от $97,75</span><span class="old" id="old">$115</span><span class="badge">−15%</span></div>
+    <p class="label">Размер</p>
+    <div class="sizes" id="sizes"></div>
+    <p class="hint" id="hint" aria-live="polite">Выберите размер</p>
+    <button class="buy" id="buy" disabled>Выберите размер</button>
+  </div>
+</main>
+<div class="overlay" id="overlay" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dt" hidden>
+  <div class="dh"><h2 id="dt">Корзина</h2><button type="button" class="x" id="closecart" aria-label="Закрыть корзину">✕</button></div>
+  <div class="bar"><button type="button" class="ghost" id="all">Выбрать все товары</button><span id="selcount"></span></div>
+  <div class="list" id="list"></div>
+  <div class="foot">
+    <div class="sum"><span>Итого за выбранное</span><b id="total">$0,00</b></div>
+    <button type="button" class="buy" id="pay">Перейти к оплате</button>
+    <button type="button" class="buy alt" id="cod">Оплатить при получении</button>
+    <p class="msg" id="msg" role="status"></p>
+  </div>
+</aside>
+<script>
+(function(){
+  var inStock=[35,36,37,38,39,40,41,42,43], outOfStock=[44,45,46,47,48];
+  var wrap=document.getElementById('sizes'), hint=document.getElementById('hint'), buy=document.getElementById('buy');
+  var selected=null;
+  var nowEl=document.getElementById('now'), oldEl=document.getElementById('old');
+  function base(s){return 115+5*(s-35);}
+  function fmt(n){return '$'+n.toFixed(2).replace('.',',');}
+  function render(){
+    wrap.innerHTML='';
+    inStock.concat(outOfStock).forEach(function(s){
+      var b=document.createElement('button');
+      b.type='button'; b.className='size'; b.textContent=s; b.title=fmt(base(s));
+      if(outOfStock.indexOf(s)>-1){ b.disabled=true; b.title='Нет в наличии'; }
+      else{
+        b.setAttribute('aria-pressed', s===selected ? 'true':'false');
+        b.addEventListener('click',function(){ selected=s; render(); update(); });
+      }
+      wrap.appendChild(b);
+    });
+  }
+  var cartBtn=document.getElementById('cart'), countEl=document.getElementById('count');
+  var drawer=document.getElementById('drawer'), overlay=document.getElementById('overlay'), list=document.getElementById('list');
+  var allBtn=document.getElementById('all'), totalEl=document.getElementById('total'), selCount=document.getElementById('selcount');
+  var payBtn=document.getElementById('pay'), codBtn=document.getElementById('cod'), msg=document.getElementById('msg');
+  var items=[
+    {id:'s38',name:'Кроссовки Forever Sister X',size:38,price:base(38)*0.85,qty:1,on:true},
+    {id:'s41',name:'Кроссовки Forever Sister X',size:41,price:base(41)*0.85,qty:1,on:true},
+    {id:'d42',name:'Платье «Ангелина»',size:42,price:79,qty:1,on:false}
+  ];
+  function qtyTotal(){return items.reduce(function(a,i){return a+i.qty;},0);}
+  function selected_(){return items.filter(function(i){return i.on;});}
+  function selTotal(){return selected_().reduce(function(a,i){return a+i.price*i.qty;},0);}
+  function addItem(size){
+    var found=items.filter(function(i){return i.id==='s'+size;})[0];
+    if(found){found.qty++;found.on=true;}
+    else items.push({id:'s'+size,name:'Кроссовки Forever Sister X',size:size,price:base(size)*0.85,qty:1,on:true});
+    renderCart();
+  }
+  function renderTotals(){
+    var sel=selected_();
+    totalEl.textContent=fmt(selTotal());
+    selCount.textContent='Выбрано: '+sel.length+' из '+items.length;
+    var every=items.length>0 && sel.length===items.length;
+    allBtn.textContent=every?'Снять выбор':'Выбрать все товары';
+    allBtn.disabled=!items.length;
+    payBtn.disabled=codBtn.disabled=!sel.length;
+  }
+  function renderCart(){
+    var n=qtyTotal();
+    countEl.textContent=n; countEl.hidden=n===0;
+    cartBtn.setAttribute('aria-label', n ? 'Корзина, товаров: '+n : 'Корзина пуста');
+    list.innerHTML='';
+    if(!items.length){ list.innerHTML='<p class="empty">В корзине пока пусто. Выберите размер и нажмите «В корзину».</p>'; }
+    items.forEach(function(it){
+      var row=document.createElement('div'); row.className='row';
+      var cb=document.createElement('input'); cb.type='checkbox'; cb.checked=it.on;
+      cb.addEventListener('change',function(){ it.on=cb.checked; renderTotals(); });
+      cb.id='cb-'+it.id;
+      var del=document.createElement('button'); del.type='button'; del.className='del'; del.textContent='✕';
+      del.setAttribute('aria-label','Удалить из корзины: '+it.name+', размер '+it.size);
+      del.addEventListener('click',function(){ items=items.filter(function(i){return i!==it;}); renderCart(); });
+      var info=document.createElement('label'); info.className='info'; info.htmlFor='cb-'+it.id;
+      var b=document.createElement('b'); b.textContent=it.name;
+      var sm=document.createElement('small'); sm.textContent='Размер '+it.size+' · '+fmt(it.price)+' × '+it.qty;
+      info.appendChild(b); info.appendChild(sm);
+      var p=document.createElement('span'); p.className='lp'; p.textContent=fmt(it.price*it.qty);
+      var qty=document.createElement('span'); qty.className='qty';
+      var minus=document.createElement('button'); minus.type='button'; minus.textContent='−'; minus.setAttribute('aria-label','Уменьшить количество');
+      var q=document.createElement('span'); q.setAttribute('aria-live','polite');
+      var plus=document.createElement('button'); plus.type='button'; plus.textContent='+'; plus.setAttribute('aria-label','Увеличить количество');
+      function sync(){
+        q.textContent=it.qty; minus.disabled=it.qty<=1; plus.disabled=it.qty>=99;
+        sm.textContent='Размер '+it.size+' · '+fmt(it.price)+' × '+it.qty;
+        p.textContent=fmt(it.price*it.qty);
+        var n=qtyTotal(); countEl.textContent=n; countEl.hidden=n===0;
+        cartBtn.setAttribute('aria-label','Корзина, товаров: '+n);
+        renderTotals();
+      }
+      minus.addEventListener('click',function(){ if(it.qty>1){ it.qty--; sync(); } });
+      plus.addEventListener('click',function(){ if(it.qty<99){ it.qty++; sync(); } });
+      qty.appendChild(minus); qty.appendChild(q); qty.appendChild(plus);
+      q.textContent=it.qty; minus.disabled=it.qty<=1; plus.disabled=it.qty>=99;
+      row.appendChild(cb); row.appendChild(del); row.appendChild(info); row.appendChild(qty); row.appendChild(p);
+      list.appendChild(row);
+    });
+    renderTotals();
+  }
+  function openCart(){ msg.textContent=''; drawer.hidden=false; overlay.hidden=false; document.getElementById('closecart').focus(); }
+  function closeCart(){ drawer.hidden=true; overlay.hidden=true; cartBtn.focus(); }
+  cartBtn.addEventListener('click',openCart);
+  overlay.addEventListener('click',closeCart);
+  document.getElementById('closecart').addEventListener('click',closeCart);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape' && !drawer.hidden) closeCart(); });
+  allBtn.addEventListener('click',function(){
+    var every=items.length>0 && selected_().length===items.length;
+    items.forEach(function(i){ i.on=!every; });
+    renderCart();
+  });
+  payBtn.addEventListener('click',function(){
+    msg.textContent='Переходим к оплате заказа на '+fmt(selTotal())+'. Это демо: настоящей оплаты здесь нет.';
+  });
+  codBtn.addEventListener('click',function(){
+    var sum=selTotal();
+    items=items.filter(function(i){return !i.on;});
+    renderCart();
+    msg.textContent='Заказ на '+fmt(sum)+' оформлен. Оплата при получении.';
+  });
+  renderCart();
+  var reduce=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  buy.addEventListener('click',function(){
+    if(!selected) return;
+    addItem(selected);
+    
+    if(reduce) return;
+    var src=document.getElementById('pic').getBoundingClientRect();
+    var dst=cartBtn.getBoundingClientRect();
+    var fly=document.createElement('div');
+    fly.className='fly';
+    fly.innerHTML='<div class="fly-pic">👟</div><div><b>Forever Sister X</b><br>Размер '+selected+' · '+nowEl.textContent+'</div>';
+    document.body.appendChild(fly);
+    var sx=src.left+src.width/2-110, sy=src.top+src.height/2-36;
+    var ex=dst.left+dst.width/2-110, ey=dst.top+dst.height/2-36;
+    var anim=fly.animate([
+      {transform:'translate('+sx+'px,'+sy+'px) scale(1)',opacity:1},
+      {transform:'translate('+ex+'px,'+ey+'px) scale(.12)',opacity:.4}
+    ],{duration:800,easing:'cubic-bezier(.5,0,.75,0)'});
+    anim.onfinish=function(){
+      fly.remove();
+      cartBtn.animate([{transform:'scale(1)'},{transform:'scale(1.25)'},{transform:'scale(1)'}],{duration:300});
+    };
+  });
+  function update(){
+    if(selected){ nowEl.textContent=fmt(base(selected)*0.85); oldEl.textContent=fmt(base(selected)); hint.textContent='Выбран размер '+selected; buy.disabled=false; buy.textContent='В корзину, размер '+selected; }
+  }
+  render();
+})();
+</script>
+</body>
+</html>
