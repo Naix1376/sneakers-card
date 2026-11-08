@@ -9,4 +9,3 @@ var P={
   dress:{cat:'Одежда',title:'Платье «Ангелина»',name:'Платье «Ангелина»',brand:'Коллекция «Ангелина»',rating:false,sizes:range(38,44),stock:function(){return true;},price:function(){return 79;},disc:0.05,img:'images/dress.jpg',emo:'👗'},
   dress2:{cat:'Одежда',title:'Толстовка «MARK II»',name:'Толстовка «Naix X Mark II»',brand:'Коллекция «Naix»',rating:true,sizes:range(38,55),stock:function(){return true;},price:function(s){return 215+10*(s-20);},disc:0.05,img:'images/dress2.jpg',emo:'👘'}
 };
-accessories:{cat: 'Аксессуары',}
