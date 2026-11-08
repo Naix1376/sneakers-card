@@ -3,6 +3,8 @@
 (function(){
   function fmt(n){return '$'+n.toFixed(2).replace('.',',');}
   function unit(k,s){return P[k].price(s)*(1-P[k].disc);}
+  var nav=document.getElementById('nav');
+  Object.keys(P).forEach(function(k){ var a=document.createElement('a'); a.href='#'+k; a.textContent=P[k].title; nav.appendChild(a); });
   var view=document.getElementById('view'), links=document.querySelectorAll('#nav a');
   var cartBtn=document.getElementById('cart'), countEl=document.getElementById('count');
   var drawer=document.getElementById('drawer'), overlay=document.getElementById('overlay'), list=document.getElementById('list');
@@ -21,7 +23,7 @@
   function save(){ try{ localStorage.setItem(KEY,JSON.stringify(items)); }catch(e){} }
   var items=load()||[{k:'sneakers',size:38,qty:1,on:true},{k:'sneakers',size:41,qty:1,on:true},{k:'dress',size:42,qty:1,on:false}];
 
-  function route(){var h=location.hash.slice(1); cur=P[h]?h:'sneakers'; sel=null; renderProduct();}
+  function route(){var h=location.hash.slice(1); cur=Object.prototype.hasOwnProperty.call(P,h)?h:Object.keys(P)[0]; sel=null; renderProduct();}
   function renderProduct(){
     var p=P[cur];
     [].forEach.call(links,function(a){a.setAttribute('aria-current',a.getAttribute('href')==='#'+cur?'page':'false');});
