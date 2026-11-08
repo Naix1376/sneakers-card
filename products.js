@@ -5,7 +5,7 @@
 // price(размер) возвращает цену до скидки, disc — скидка (0.05 = 5%).
 // Ключ для приёма заказов на почту (бесплатно на web3forms.com: введите свою почту, и ключ придёт письмом).
 // Пока здесь пусто, заказы не отправляются.
-var ORDER_KEY='00145869149a4ada935a0be4b0fef298';
+var ORDER_KEY='8b350bf8b98849339c3cc67cee6374da';
 function range(a,b){var r=[];for(var i=a;i<=b;i++)r.push(i);return r;}
 var P={
   sneakers:{cat:'Обувь',title:'Кроссовки',name:'Кроссовки Forever Sister X',brand:'Forever Sister · молодёжная серия',rating:true,sizes:range(35,48),stock:function(s){return s<=43;},price:function(s){return 115+5*(s-35);},disc:0.15,img:'images/sneakers.jpg',emo:'👟'},
