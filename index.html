@@ -110,7 +110,16 @@ h1{font-size:1.4rem;line-height:1.25;margin:0 0 4px}
   var payBtn=document.getElementById('pay'), codBtn=document.getElementById('cod'), msg=document.getElementById('msg');
   var reduce=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var cur='sneakers', sel=null;
-  var items=[{k:'sneakers',size:38,qty:1,on:true},{k:'sneakers',size:41,qty:1,on:true},{k:'dress',size:42,qty:1,on:false}];
+  var KEY='mini-shop-cart-v1';
+  function load(){
+    try{
+      var raw=localStorage.getItem(KEY); if(!raw) return null;
+      var a=JSON.parse(raw); if(!Array.isArray(a)) return null;
+      return a.filter(function(i){return i&&P[i.k]&&P[i.k].sizes.indexOf(i.size)>-1&&P[i.k].stock(i.size)&&i.qty>=1&&i.qty<=99;}).map(function(i){return {k:i.k,size:i.size,qty:Math.floor(i.qty),on:!!i.on};});
+    }catch(e){return null;}
+  }
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(items)); }catch(e){} }
+  var items=load()||[{k:'sneakers',size:38,qty:1,on:true},{k:'sneakers',size:41,qty:1,on:true},{k:'dress',size:42,qty:1,on:false}];
 
   function route(){var h=location.hash.slice(1); cur=P[h]?h:'sneakers'; sel=null; renderProduct();}
   function renderProduct(){
@@ -160,7 +169,7 @@ h1{font-size:1.4rem;line-height:1.25;margin:0 0 4px}
   function badge(){var n=qtyTotal(); countEl.textContent=n; countEl.hidden=n===0; cartBtn.setAttribute('aria-label',n?'Корзина, товаров: '+n:'Корзина пуста');}
   function renderTotals(){
     var c=chosen(), every=items.length>0&&c.length===items.length;
-    totalEl.textContent=fmt(selTotal());
+    totalEl.textContent=fmt(selTotal()); save();
     selCount.textContent='Выбрано: '+c.length+' из '+items.length;
     allBtn.textContent=every?'Снять выбор':'Выбрать все товары';
     allBtn.disabled=!items.length;
