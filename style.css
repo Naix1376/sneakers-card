@@ -68,3 +68,18 @@ h1{font-size:1.4rem;line-height:1.25;margin:0 0 4px}
 .sum{display:flex;justify-content:space-between;align-items:baseline;font-size:1.1rem}
 .sum b{font-size:1.5rem;color:var(--sale)}
 .msg{margin:0;min-height:1.4em;color:var(--muted);font-size:.9rem}
+
+.catalog{margin:24px auto;width:calc(100% - 32px);max-width:960px}
+.catalog h1{margin:0 0 12px}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.filters input,.filters select{height:44px;border:1.5px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit;padding:0 12px}
+.filters input[type="search"]{flex:1 1 200px}
+.filters input[type="number"]{width:140px}
+.found{color:var(--muted);font-size:.9rem;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
+.tile{position:relative;display:flex;flex-direction:column;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;color:var(--ink);text-decoration:none}
+.tile:hover{border-color:var(--accent)}
+.tpic{position:relative;overflow:hidden;min-height:220px;aspect-ratio:3/4;background:linear-gradient(160deg,#0f172a,#1e3a8a);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.tpic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.tprice{color:var(--sale);font-weight:700}
+.tbadge{position:absolute;top:18px;left:18px;background:var(--sale);color:var(--bg);font-size:.8rem;font-weight:600;padding:2px 8px;border-radius:999px}

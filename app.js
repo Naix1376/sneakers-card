@@ -4,7 +4,7 @@
   function fmt(n){return '$'+n.toFixed(2).replace('.',',');}
   function unit(k,s){return P[k].price(s)*(1-P[k].disc);}
   var nav=document.getElementById('nav');
-  Object.keys(P).forEach(function(k){ var a=document.createElement('a'); a.href='#'+k; a.textContent=P[k].title; nav.appendChild(a); });
+  [['catalog','Каталог']].concat(Object.keys(P).map(function(k){return [k,P[k].title];})).forEach(function(t){ var a=document.createElement('a'); a.href='#'+t[0]; a.textContent=t[1]; nav.appendChild(a); });
   var view=document.getElementById('view'), links=document.querySelectorAll('#nav a');
   var cartBtn=document.getElementById('cart'), countEl=document.getElementById('count');
   var drawer=document.getElementById('drawer'), overlay=document.getElementById('overlay'), list=document.getElementById('list');
@@ -23,12 +23,55 @@
   function save(){ try{ localStorage.setItem(KEY,JSON.stringify(items)); }catch(e){} }
   var items=load()||[{k:'sneakers',size:38,qty:1,on:true},{k:'sneakers',size:41,qty:1,on:true},{k:'dress',size:42,qty:1,on:false}];
 
-  function route(){var h=location.hash.slice(1); cur=Object.prototype.hasOwnProperty.call(P,h)?h:Object.keys(P)[0]; sel=null; renderProduct();}
+  function route(){
+    var h=location.hash.slice(1); sel=null;
+    if(Object.prototype.hasOwnProperty.call(P,h)){ cur=h; renderProduct(); }
+    else { setNav('catalog'); renderCatalog(); }
+  }
+  function setNav(k){ [].forEach.call(links,function(a){ a.setAttribute('aria-current',a.getAttribute('href')==='#'+k?'page':'false'); }); }
+
+  // Каталог: поиск, категория и цена
+  var f={q:'',cat:'',max:''};
+  function minPrice(k){ var p=P[k]; return Math.min.apply(null,p.sizes.filter(p.stock).map(function(s){return unit(k,s);})); }
+  function renderCatalog(){
+    document.title='Каталог — мини-магазин'; view.className='catalog';
+    view.innerHTML='<h1>Каталог</h1><div class="filters"><input type="search" id="q" placeholder="Поиск по названию" aria-label="Поиск"><select id="cat" aria-label="Категория"><option value="">Все категории</option></select><input type="number" id="max" min="0" placeholder="Цена до, $" aria-label="Цена до"></div><p class="found" id="found" aria-live="polite"></p><div class="grid" id="grid"></div>';
+    var q=document.getElementById('q'), cs=document.getElementById('cat'), mx=document.getElementById('max'), cats=[];
+    Object.keys(P).forEach(function(k){ if(P[k].cat && cats.indexOf(P[k].cat)<0) cats.push(P[k].cat); });
+    cats.forEach(function(c){ var o=document.createElement('option'); o.value=c; o.textContent=c; cs.appendChild(o); });
+    q.value=f.q; cs.value=f.cat; mx.value=f.max;
+    q.addEventListener('input',function(){ f.q=q.value; renderGrid(); });
+    cs.addEventListener('change',function(){ f.cat=cs.value; renderGrid(); });
+    mx.addEventListener('input',function(){ f.max=mx.value; renderGrid(); });
+    renderGrid();
+  }
+  function renderGrid(){
+    var grid=document.getElementById('grid'), n=0, q=f.q.trim().toLowerCase(), max=parseFloat(f.max);
+    grid.innerHTML='';
+    Object.keys(P).forEach(function(k){
+      var p=P[k], price=minPrice(k);
+      if(q && (p.name+' '+p.brand).toLowerCase().indexOf(q)<0) return;
+      if(f.cat && p.cat!==f.cat) return;
+      if(!isNaN(max) && price>max) return;
+      n++;
+      var a=document.createElement('a'); a.className='tile'; a.href='#'+k;
+      var pic=document.createElement('div'); pic.className='tpic';
+      var em=document.createElement('span'); em.className='emo'; em.textContent=p.emo; em.setAttribute('aria-hidden','true');
+      var im=document.createElement('img'); im.alt=''; im.src=p.img; im.onerror=function(){ im.remove(); };
+      pic.appendChild(em); pic.appendChild(im);
+      var nm=document.createElement('b'); nm.textContent=p.name;
+      var pr=document.createElement('span'); pr.className='tprice'; pr.textContent='от '+fmt(price);
+      a.appendChild(pic); a.appendChild(nm); a.appendChild(pr);
+      if(p.disc){ var d=document.createElement('span'); d.className='tbadge'; d.textContent='−'+Math.round(p.disc*100)+'%'; a.appendChild(d); }
+      grid.appendChild(a);
+    });
+    document.getElementById('found').textContent=n?'Найдено товаров: '+n:'Ничего не найдено. Попробуйте изменить запрос.';
+  }
   function renderProduct(){
     var p=P[cur];
     [].forEach.call(links,function(a){a.setAttribute('aria-current',a.getAttribute('href')==='#'+cur?'page':'false');});
     document.title=p.name+' — мини-магазин';
-    view.innerHTML='<div class="pic" id="pic"><span class="emo" aria-hidden="true">'+p.emo+'</span><img alt="'+p.name+'" src="'+p.img+'"></div><div><h1>'+p.name+'</h1><p class="brand">'+p.brand+'</p>'+(p.rating?'<div class="rating"><span class="stars">★★★★☆</span> 4,0</div>':'')+'<div class="price"><span class="now" id="now"></span><span class="old" id="old"></span>'+(p.disc?'<span class="badge">−'+Math.round(p.disc*100)+'%</span>':'')+'</div><p class="label">Размер</p><div class="sizes" id="sizes"></div><p class="hint" id="hint" aria-live="polite">Выберите размер</p><button class="buy" id="buy" type="button" disabled>Выберите размер</button></div>';
+    view.className='card'; view.innerHTML='<div class="pic" id="pic"><span class="emo" aria-hidden="true">'+p.emo+'</span><img alt="'+p.name+'" src="'+p.img+'"></div><div><h1>'+p.name+'</h1><p class="brand">'+p.brand+'</p>'+(p.rating?'<div class="rating"><span class="stars">★★★★☆</span> 4,0</div>':'')+'<div class="price"><span class="now" id="now"></span><span class="old" id="old"></span>'+(p.disc?'<span class="badge">−'+Math.round(p.disc*100)+'%</span>':'')+'</div><p class="label">Размер</p><div class="sizes" id="sizes"></div><p class="hint" id="hint" aria-live="polite">Выберите размер</p><button class="buy" id="buy" type="button" disabled>Выберите размер</button></div>';
     var im=view.querySelector('img'); im.onerror=function(){im.remove();};
     document.getElementById('buy').addEventListener('click',onBuy);
     renderSizes(); setPrice();
